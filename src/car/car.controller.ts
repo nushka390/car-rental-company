@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import * as carService from './car.service';
+import * as carService from '../car/car.service';
 
 export const getAllCarscontroller = async (req: Request, res: Response) => {
   try {
@@ -34,7 +34,8 @@ export const getCarByIdcontroller = async (req: Request, res: Response) => {
 
 export const createcarController = async (req: Request, res: Response) => {
   try {
-    if (!req.body.rentalRate || isNaN(req.body.rentalRate)) {
+    console.log(req.body)
+    if (!req.body.rentalRate ) {
       res.status(400).json({ error: "Valid rentalRate is required" });
       return;
     }

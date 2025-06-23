@@ -15,7 +15,7 @@ export const getPaymentById = async (id: number) => {
   return Payment;
 };
 
-export const createPaymentTableController = async (data: any) => {
+export const createPaymentTableService = async (data: any) => {
   if (!data.PaymentID )
      {
     throw new Error("Missing required fields: Payment");
@@ -34,7 +34,7 @@ export const updatePayment = async (id: number, data: any) => {
 
 export const deletePayment = async (id: number) => {
   const result = await db.delete(PaymentTable).where(eq(PaymentTable.paymentID, id));
-  if (result.rowCount === 0) throw new Error("Payment not found");
+  if (result.length === 0) throw new Error("Payment not found");
   return true;
 };
 
@@ -43,7 +43,5 @@ export const deletePayment = async (id: number) => {
 
 
 
-export function CreatePayment(arg0: any) {
-  throw new Error('Function not implemented.');
-}
+
 

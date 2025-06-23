@@ -38,10 +38,17 @@ export const updateCar = async (id: number, data: Partial<Car>) => {
 
 export const deleteCar = async (id: number) => {
   const result = await db.delete(CarTable).where(eq(CarTable.carID, id));
-  if (result.rowCount === 0) throw new Error("Car not found");
+  if (result.length === 0) throw new Error("Car not found");
   return true;
 };
 
-export function createCar(arg0: any) {
-  throw new Error('Function not implemented.');
-}
+export const createCar = async (data: Car) => {
+  if (!data.carModel || !data.year || !data.rentalRate) {
+    throw new Error("Missing required fields: carModel, year, rentalRate");
+  }
+
+  const result = await db.insert(CarTable).values(data).returning();
+  return result[0];
+  
+};
+

@@ -34,20 +34,30 @@ export const getInsuranceByIdcontroller = async (req: Request, res: Response) =>
 
 export const createinsuranceController = async (req: Request, res: Response) => {
   try {
-    if (!req.body.startdate || isNaN(req.body.enddate)) {
+    const { startdate, enddate, rentalRate, ...rest } = req.body;
+
+    if (!startdate || isNaN(Date.parse(startdate))) {
       res.status(400).json({ error: "Valid start date is required" });
       return;
     }
-    
-    const newInsurance = await insuranceService.createinsurance({
-      ...req.body,
-      rentalRate: parseFloat(req.body.startdate)
+    if (!enddate || isNaN(Date.parse(enddate))) {
+      res.status(400).json({ error: "Valid end date is required" });
+      return;
+    }
+
+    const newInsurance = await insuranceService.createInsurance({
+      startdate,
+      enddate,
+      rentalRate: parseFloat(rentalRate),
+      ...rest,
     });
+
     res.status(201).json(newInsurance);
   } catch (error: any) {
     res.status(400).json({ error: error.message });
   }
 };
+
 
 export const updateinsurancecontroller = async (req: Request, res: Response) => {
   try {
@@ -82,7 +92,7 @@ export const deleteinsurancecontroller = async (req: Request, res: Response) => 
     }
   
     
-    await insuranceService.createinsurance(id);
+    await insuranceService.deleteinsurance(id);
     res.status(204).send();
   } catch (error: any) {
     if (error.message === "insurance not found") {

@@ -10,7 +10,9 @@ import {
 const router = express.Router();
 router.post("/", createBookingController);
 
-router.get("/", getAllBookingsController);
+// router.get("/", getAllBookingsController);
+
+router.route("/").get(getAllBookingsController);
 
 router.get("/:id", getBookingByIdController);
 

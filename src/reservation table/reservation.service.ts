@@ -13,7 +13,7 @@ export const createReservationService = async (ReservationData: typeof Reservati
 };
 
 // Get all bookings
-export const getAllBookingsService = async () => {
+export const getAllReservationService = async () => {
   try {
     return await db.select().from(ReservationTable);
   } catch (error) {
@@ -56,19 +56,61 @@ export const deleteReservationService = async (id: number) => {
 };
 
 
-export function getAllreservation(id: number) {
-    throw new Error('Function not implemented.');
+
+export const getAllReservations = async () => {
+  return await db.query.ReservationTable.findMany({
+    columns:{
+      reservationID: true,
+      customerID: true,
+      carID: true,
+      reservationDate: true,
+      returnDate: true,
+      pickupDate: true,
+      
+      
+      
+
+    }
+  })
 }
 
-export function CreateReservation(arg0: any, body: any) {
-    throw new Error('Function not implemented.');
-}
 
-export function deletereservation(id: number) {
-    throw new Error('Function not implemented.');
+export function CreateReservation(id: number, body: any) {
+  throw new Error('Function not implemented.');
 }
 
 export function newReservation(arg0: any) {
-    throw new Error('Function not implemented.');
+  throw new Error('Function not implemented.');
 }
+
+export function deleteReservation(id: number) {
+  throw new Error('Function not implemented.');
+}
+
+export function getReservationById(id: number) {
+  throw new Error('Function not implemented.');
+}
+
+export function updateReservation(id: number, body: any) {
+  throw new Error('Function not implemented.');
+}
+
+export function getAllReservation(id: number) {
+  throw new Error('Function not implemented.');
+}
+// export function newReservation(arg0: any) {
+//   throw new Error('Function not implemented.');
+// }
+
+// export function CreateReservation(id: number, body: any) {
+//   throw new Error('Function not implemented.');
+// }
+
+// export function deleteReservation(id: number) {
+//   throw new Error('Function not implemented.');
+// }
+
+// export function getAllReservationsService() {
+//     throw new Error('Function not implemented.');
+// }
 

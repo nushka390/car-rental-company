@@ -33,10 +33,20 @@ export const updateinsurance = async (id: number, data: insurance) => {
 
 export const deleteCar = async (id: number) => {
   const result = await db.delete(InsuranceTable).where(eq(InsuranceTable.carID, id));
-  if (result.rowCount === 0) throw new Error("insurance not found");
+  if (result.length === 0) throw new Error("insurance not found");
   return true;
 };
 
-export function createinsurance(arg0: any) {
+export const createInsurance = async (data: insurance) => {
+  if (!data.insuranceID) {
+    throw new Error("Missing required fields: insurance");
+  }
+
+  const result = await db.insert(InsuranceTable).values(data).returning();
+  return result[0];
+  
+};
+export function deleteinsurance(id: number) {
   throw new Error('Function not implemented.');
 }
+

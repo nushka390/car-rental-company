@@ -1,23 +1,22 @@
-  import "dotenv/config"
+// src/Drizzle/db.ts
 
-  import { drizzle } from "drizzle-orm/node-postgres"
-  import { Client } from "pg"
-  import * as schema from "./schema"
+import { drizzle } from 'drizzle-orm/postgres-js';
+import postgres from 'postgres';
+import * as schema from './schema'; // Adjust this if your schema is elsewhere
 
-  export const client = new Client({
-      connectionString: process.env.Database_URL as string
-  })
+// Use test DB if in test mode, otherwise use the default
+const isTest = process.env.NODE_ENV === 'test';
 
-  const main = async () => {
-      await client.connect()
+const client = postgres(
+  isTest
+    ? process.env.TEST_DATABASE_URL || 'postgres://postgres:Nushkez18.@localhost:5432/car_rental-db'
+    : process.env.DATABASE_URL || 'postgres://postgres:Nushkez18.@localhost:5432/car_rental-db',
+  {
+    max: 1, // Required for drizzle + postgres-js testing
   }
-  main().then(() => {
-      console.log("Connected to the database")
-  }).catch((error) => {
-      console.error("Error connecting to the database:", error)
-  })
+);
 
+// Connect drizzle to the database client and schema
+const db = drizzle(client, { schema });
 
-  const db = drizzle(client, { schema, logger: true })
-
-  export default db
+export default db;

@@ -5,12 +5,16 @@ import { text, varchar, serial, pgTable, decimal, integer, boolean, date } from 
 
 // customer table
 export const CustomerTable = pgTable("customer", {
-    customerID: serial("customerID").primaryKey(),
-    firstName: varchar("FirstName", { length: 50 }).notNull(),
-    lastName: varchar("LastName", { length: 50 }).notNull(),
-    email: varchar("Email", { length: 100 }).notNull().unique(),
-    phoneNumber: text("PhoneNumber"),
-    address: varchar("Address", { length: 255 })
+  customerID: serial("customerID").primaryKey(),
+  firstName: varchar("FirstName", { length: 50 }).notNull(),
+  lastName: varchar("LastName", { length: 50 }).notNull(),
+  email: varchar("Email", { length: 100 }).notNull().unique(),
+  password: varchar("Password", { length: 255 }).notNull(),
+  phoneNumber: text("PhoneNumber"),
+  address: varchar("Address", { length: 255 }),
+  role: varchar("Role", { length: 20 }).default("user"),
+  isVerified: boolean("isVerified").default(false),
+  verificationCode: varchar("verificationCode", { length: 6 })
 });
 
 // Location Table
@@ -39,7 +43,8 @@ export const ReservationTable = pgTable("reservation", {
     carID: integer("CarID").notNull().references(() => CarTable.carID, { onDelete: "cascade" }),
     reservationDate: date("ReservationDate").notNull(),
     pickupDate: date("PickupDate").notNull(),
-    returnDate: date("ReturnDate")
+    returnDate: date("ReturnDate"),
+    bookingID: integer("BookingID").references(() => BookingsTable.bookingID, { onDelete: "set null" }) // Optional relationship to Booking
 });
 
 //Booking Table

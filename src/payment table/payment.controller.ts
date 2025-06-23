@@ -40,7 +40,7 @@ export const createPaymentController = async (req: Request, res: Response) => {
       return;
     }
     
-    const newPayment = await PaymentService.CreatePayment({
+    const newPayment = await PaymentService.createPaymentTableService({
       ...req.body,
       payment: parseFloat(req.body.PaymentID)
     });

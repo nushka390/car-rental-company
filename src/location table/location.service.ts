@@ -33,14 +33,9 @@ export const updateinsurance = async (id: number, data: Location) => {
 
 export const deleteLocation = async (id: number) => {
   const result = await db.delete(LocationTable).where(eq(LocationTable.locationID, id));
-  if (result.rowCount === 0) throw new Error("location not found");
+  if (result.length === 0) throw new Error("location not found");
   return true;
 };
 
-export function createLocation(arg0: any) {
-  throw new Error('Function not implemented.');
-}
-export function updateilocation(id: number, body: any) {
-    throw new Error('Function not implemented.');
-}
+
 

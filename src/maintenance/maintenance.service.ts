@@ -33,10 +33,16 @@ export const updatemaintenance = async (id: number, data: Maintenance) => {
 
 export const deleteMaintenance = async (id: number) => {
   const result = await db.delete(MaintenanceTable).where(eq(MaintenanceTable.maintenanceID, id));
-  if (result.rowCount === 0) throw new Error("Maintenance not found");
+  if (result.length === 0) throw new Error("Maintenance not found");
   return true;
 };
 
-export function createCar(arg0: any) {
-  throw new Error('Function not implemented.');
-}
+export const createMaintenance = async (data: Maintenance) => {
+  if (!data.carID || !data.cost || !data.maintenanceDate) {
+    throw new Error("Missing required fields: cost, carId, maintenanceDate");
+  }
+
+  const result = await db.insert(MaintenanceTable).values(data).returning();
+  return result[0];
+  
+};
